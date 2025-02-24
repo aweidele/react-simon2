@@ -29,4 +29,4 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/ # Ensure this is correct
-          server-dir: /public_html/projects.aaronweidele.com/sequence-master # Adjust your deployment path
+          server-dir: /public_html/projects.aaronweidele.com/sequence-master/ # Adjust your deployment path

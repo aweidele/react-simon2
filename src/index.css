@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@theme {
+  --color-cheese: #ee9923;
+  --text-lg: 30px;
+}
+
+h1 {
+  @apply text-cheese text-lg;
+}

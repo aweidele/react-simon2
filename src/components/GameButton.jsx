@@ -25,7 +25,7 @@ export const GameButton = ({ color, active, onMouseDown, onMouseUp, position }) 
   }
 
   return (
-    <button className={`w-[43%] cursor-pointer pointer-events-none absolute ${positionClass}`} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
+    <button className={`w-[43%] cursor-pointer pointer-events-none touch-manipulation block absolute ${positionClass}`} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 345.845 345.845">
         <path
           className={`pointer-events-auto ${fillClass} transition duration-200`}

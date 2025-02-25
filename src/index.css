@@ -1,10 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-cheese: #ee9923;
-  --text-lg: 30px;
-}
+  /* Colors */
+  --color-almost-black: #1c2229;
+  --color-yellow: #706700;
+  --color-yellow-active: #e7d400;
+  --color-blue: #000047;
+  --color-blue-active: #0100b9;
+  --color-green: #366e00;
+  --color-green-active: #66d000;
+  --color-red: #751600;
+  --color-red-active: #e72b00;
 
-h1 {
-  @apply text-cheese text-lg;
+  --text-lg: 30px;
 }

@@ -38,9 +38,9 @@ export function GameBoard() {
 
   return (
     <>
-      <div>
+      {/* <div>
         <input type="number" value={buttonCount} onChange={handleButtonCount} />
-      </div>
+      </div> */}
       <div className="max-w-210 max-h-screen mx-auto p-5">
         <div className="h-full w-full bg-almost-black rounded-full aspect-square relative">
           {gameButtons.map((btn, i) => (

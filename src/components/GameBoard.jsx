@@ -22,6 +22,7 @@ export function GameBoard() {
   ];
 
   const [activeButton, setActiveButton] = useState(0);
+  const [buttonCount, setButtonCount] = useState(4);
 
   const handleButtonDown = (num) => {
     setActiveButton(num);
@@ -31,8 +32,15 @@ export function GameBoard() {
     setActiveButton(0);
   };
 
+  const handleButtonCount = (e) => {
+    setButtonCount(e.target.value);
+  };
+
   return (
     <>
+      <div>
+        <input type="number" value={buttonCount} onChange={handleButtonCount} />
+      </div>
       <div className="max-w-210 max-h-screen mx-auto p-5">
         <div className="h-full w-full bg-almost-black rounded-full aspect-square relative">
           {gameButtons.map((btn, i) => (
@@ -45,6 +53,7 @@ export function GameBoard() {
               }}
               onMouseUp={handleButtonUp}
               position={btn.position}
+              percent={1 / buttonCount}
             />
           ))}
         </div>

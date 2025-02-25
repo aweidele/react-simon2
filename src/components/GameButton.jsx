@@ -8,7 +8,7 @@ const colors = {
   red: ["fill-red", "fill-red-active"],
 };
 
-export const GameButton = ({ color, active, onMouseDown, onMouseUp, position }) => {
+export const GameButton = ({ color, active, onMouseDown, onMouseUp, position, percent }) => {
   const fillClass = colors[color][active ? 1 : 0];
   let positionClass;
   switch (position) {
@@ -28,7 +28,7 @@ export const GameButton = ({ color, active, onMouseDown, onMouseUp, position }) 
 
   return (
     <button className={`w-[43%] cursor-pointer pointer-events-none touch-manipulation block absolute ${positionClass}`} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
-      <ButtonShape percent={0.25} fillClass={fillClass} />
+      <ButtonShape percent={percent} fillClass={fillClass} />
     </button>
   );
 };

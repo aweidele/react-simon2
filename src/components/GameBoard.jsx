@@ -32,21 +32,23 @@ export function GameBoard() {
   };
 
   return (
-    <div className="max-w-210 max-h-screen mx-auto p-5 aspect-square">
-      <div className="h-full w-full bg-almost-black rounded-full relative">
-        {gameButtons.map((btn, i) => (
-          <GameButton
-            key={btn.color}
-            color={btn.color}
-            active={activeButton === i + 1}
-            onMouseDown={() => {
-              handleButtonDown(i + 1);
-            }}
-            onMouseUp={handleButtonUp}
-            position={btn.position}
-          />
-        ))}
+    <>
+      <div className="max-w-210 max-h-screen mx-auto p-5">
+        <div className="h-full w-full bg-almost-black rounded-full aspect-square relative">
+          {gameButtons.map((btn, i) => (
+            <GameButton
+              key={btn.color}
+              color={btn.color}
+              active={activeButton === i + 1}
+              onMouseDown={() => {
+                handleButtonDown(i + 1);
+              }}
+              onMouseUp={handleButtonUp}
+              position={btn.position}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -15,7 +15,7 @@
 
   --text-lg: 30px;
   --text-start-button: clamp(0.375rem, 1.1vw, 0.75rem);
-  --text-title: clamp(0.375rem, 1.2903225806451613vw + 0.07258064516129033rem, 0.75rem);
+  --text-title: clamp(0.625rem, 3.010752688172043vw + -0.08064516129032258rem, 1.5rem);
   --text-title-full: 1.5rem;
 
   --spacing-button: 5.625%;

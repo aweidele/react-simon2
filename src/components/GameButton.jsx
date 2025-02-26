@@ -7,65 +7,80 @@ const colors = {
   blue: ["fill-blue", "fill-blue-active"],
   red: ["fill-red", "fill-red-active"],
 };
+import { buttons } from "../functions/sound";
 
 export const GameButton = ({ color, active, onMouseDown, onMouseUp, position }) => {
-  const fillClass = colors[color][active ? 1 : 0];
-  let positionClass;
-  switch (position) {
-    case "top left":
-      positionClass = "top-button left-button";
-      break;
-    case "top right":
-      positionClass = "top-button right-button rotate-90";
-      break;
-    case "bottom right":
-      positionClass = "bottom-button right-button rotate-180";
-      break;
-    case "bottom left":
-      positionClass = "bottom-button left-button -rotate-90";
-      break;
-  }
+  const fillClass = buttons[color].colors[active ? 1 : 0];
+  const positionClass = buttons[color].position;
 
   const audioCtxRef = useRef(null);
-  const oscillatorRef = useRef(null);
+  const noteOscillatorRef = useRef(null);
+  const harmOscillatorRef = useRef(null);
+  const bassOscillatorRef = useRef(null);
   const gainNodeRef = useRef(null);
   const fadeDuration = 0.1;
 
   function startNote() {
-    if (oscillatorRef.current) return; // Prevent duplicate oscillators
+    if (noteOscillatorRef.current || harmOscillatorRef.current || bassOscillatorRef.current) return; // Prevent duplicate oscillators
 
     const audioCtx = audioCtxRef.current;
-    const osc = audioCtx.createOscillator();
+    const noteOsc = audioCtx.createOscillator();
+    const harmOsc = audioCtx.createOscillator();
+    const bassOsc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
 
-    osc.type = "sine"; // Change to 'square', 'sawtooth', or 'triangle' if needed
-    osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+    noteOsc.type = "sine";
+    noteOsc.frequency.setValueAtTime(buttons[color].note, audioCtx.currentTime);
+
+    harmOsc.type = "triangle";
+    harmOsc.frequency.setValueAtTime(buttons[color].harm, audioCtx.currentTime);
+
+    bassOsc.type = "sine";
+    bassOsc.frequency.setValueAtTime(buttons[color].bass, audioCtx.currentTime);
+
     gain.gain.setValueAtTime(0, audioCtx.currentTime); // Start at volume 0
     gain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + fadeDuration); // Fade in
 
-    osc.connect(gain);
+    noteOsc.connect(gain);
+    harmOsc.connect(gain);
+    bassOsc.connect(gain);
     gain.connect(audioCtx.destination);
-    osc.start();
 
-    oscillatorRef.current = osc;
+    noteOsc.start();
+    harmOsc.start();
+    bassOsc.start();
+
+    noteOscillatorRef.current = noteOsc;
+    harmOscillatorRef.current = harmOsc;
+    bassOscillatorRef.current = bassOsc;
     gainNodeRef.current = gain;
   }
 
   function stopNoteWithFade() {
-    if (!oscillatorRef.current || !gainNodeRef.current) return;
+    if (!noteOscillatorRef.current || !harmOscillatorRef.current || !bassOscillatorRef.current || !gainNodeRef.current) return;
 
     const audioCtx = audioCtxRef.current;
     const gain = gainNodeRef.current;
-    const osc = oscillatorRef.current;
+    const noteOsc = noteOscillatorRef.current;
+    const harmOsc = harmOscillatorRef.current;
+    const bassOsc = bassOscillatorRef.current;
 
     gain.gain.setValueAtTime(gain.gain.value, audioCtx.currentTime);
     gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + fadeDuration); // Fade out
 
     setTimeout(() => {
-      osc.stop();
-      osc.disconnect();
+      noteOsc.stop();
+      harmOsc.stop();
+      bassOsc.stop();
+
+      harmOsc.disconnect();
+      harmOsc.disconnect();
+      bassOsc.disconnect();
+
       gain.disconnect();
-      oscillatorRef.current = null;
+      noteOscillatorRef.current = null;
+      harmOscillatorRef.current = null;
+      bassOscillatorRef.current = null;
       gainNodeRef.current = null;
     }, fadeDuration * 1000); // Stop after fade out
   }
@@ -81,8 +96,8 @@ export const GameButton = ({ color, active, onMouseDown, onMouseUp, position }) 
       stopNoteWithFade();
     }
 
-    return () => stopNoteWithFade(); // Cleanup when unmounting
-  }, [active]); // Re-run when `active` changes
+    return () => stopNoteWithFade();
+  }, [active]);
 
   return (
     <button className={`w-[43%] cursor-pointer pointer-events-none touch-manipulation block absolute ${positionClass}`} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>

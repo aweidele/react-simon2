@@ -15,4 +15,10 @@
   --text-lg: 30px;
 
   --spacing-button: 5.625%;
+
+  --font-sans: "Aldrich", serif;
+}
+
+button {
+  @apply cursor-pointer;
 }

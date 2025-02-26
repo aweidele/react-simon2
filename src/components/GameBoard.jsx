@@ -1,27 +1,13 @@
 import { useState } from "react";
 import { GameButton } from "./GameButton";
+import { StartButton } from "./StartButton";
 
 export function GameBoard() {
-  const gameButtons = [
-    {
-      color: "yellow",
-      position: "top left",
-    },
-    {
-      color: "blue",
-      position: "top right",
-    },
-    {
-      color: "green",
-      position: "bottom right",
-    },
-    {
-      color: "red",
-      position: "bottom left",
-    },
-  ];
+  const gameButtons = ["yellow", "blue", "green", "red"];
 
   const [activeButton, setActiveButton] = useState(0);
+  const [gameSequence, setGameSequence] = useState([1, 2, 3, 4]);
+  const [gameMode, setGameMode] = useState("gameover");
 
   const handleButtonDown = (num) => {
     setActiveButton(num);
@@ -33,17 +19,23 @@ export function GameBoard() {
 
   return (
     <div className="max-w-210 max-h-screen mx-auto p-5 aspect-square">
-      <div className="h-full w-full bg-almost-black rounded-full relative">
+      <div className="h-full w-full bg-almost-black rounded-full relative flex justify-center items-center">
+        <div className="w-[40%]">
+          <StartButton />
+        </div>
         {gameButtons.map((btn, i) => (
           <GameButton
-            key={btn.color}
-            color={btn.color}
+            key={btn}
+            color={btn}
             active={activeButton === i + 1}
             onMouseDown={() => {
               handleButtonDown(i + 1);
             }}
             onMouseUp={handleButtonUp}
-            position={btn.position}
+            onTouchStart={() => {
+              handleButtonDown(i + 1);
+            }}
+            onTouchEnd={handleButtonUp}
           />
         ))}
       </div>

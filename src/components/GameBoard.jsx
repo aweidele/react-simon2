@@ -46,7 +46,7 @@ export function GameBoard() {
           setIteration(0);
           setGameMode("player");
         }
-      }, 1000);
+      }, 750);
     }
     if (gameMode === "playback-pause") {
       setTimeout(
@@ -73,12 +73,13 @@ export function GameBoard() {
         }, 200);
       } else {
         setGameMode("gameover");
+        setGameSequence([]);
       }
     }
   }, [gameMode]);
 
   const handleStart = () => {
-    setGameSequence((prevSequence) => [...prevSequence, Math.floor(Math.random() * 4)]);
+    setGameSequence((prevSequence) => [...prevSequence, Math.floor(Math.random() * 4) + 1]);
     setIteration(0);
     setErrorFlash(0);
     setGameMode("playback-on");

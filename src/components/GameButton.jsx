@@ -1,4 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+// import { startNote, stopNoteWithFade } from "../functions/sound";
+
 const colors = {
   yellow: ["fill-yellow", "fill-yellow-active"],
   green: ["fill-green", "fill-green-active"],
@@ -23,6 +25,64 @@ export const GameButton = ({ color, active, onMouseDown, onMouseUp, position }) 
       positionClass = "bottom-button left-button -rotate-90";
       break;
   }
+
+  const audioCtxRef = useRef(null);
+  const oscillatorRef = useRef(null);
+  const gainNodeRef = useRef(null);
+  const fadeDuration = 0.1;
+
+  function startNote() {
+    if (oscillatorRef.current) return; // Prevent duplicate oscillators
+
+    const audioCtx = audioCtxRef.current;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+
+    osc.type = "sine"; // Change to 'square', 'sawtooth', or 'triangle' if needed
+    osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0, audioCtx.currentTime); // Start at volume 0
+    gain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + fadeDuration); // Fade in
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+
+    oscillatorRef.current = osc;
+    gainNodeRef.current = gain;
+  }
+
+  function stopNoteWithFade() {
+    if (!oscillatorRef.current || !gainNodeRef.current) return;
+
+    const audioCtx = audioCtxRef.current;
+    const gain = gainNodeRef.current;
+    const osc = oscillatorRef.current;
+
+    gain.gain.setValueAtTime(gain.gain.value, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + fadeDuration); // Fade out
+
+    setTimeout(() => {
+      osc.stop();
+      osc.disconnect();
+      gain.disconnect();
+      oscillatorRef.current = null;
+      gainNodeRef.current = null;
+    }, fadeDuration * 1000); // Stop after fade out
+  }
+
+  useEffect(() => {
+    if (!audioCtxRef.current) {
+      audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    if (active) {
+      startNote();
+    } else {
+      stopNoteWithFade();
+    }
+
+    return () => stopNoteWithFade(); // Cleanup when unmounting
+  }, [active]); // Re-run when `active` changes
 
   return (
     <button className={`w-[43%] cursor-pointer pointer-events-none touch-manipulation block absolute ${positionClass}`} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>

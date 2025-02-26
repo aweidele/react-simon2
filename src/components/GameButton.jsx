@@ -9,7 +9,7 @@ const colors = {
 };
 import { buttons } from "../functions/sound";
 
-export const GameButton = ({ color, active, onMouseDown, onMouseUp }) => {
+export const GameButton = ({ color, active, onMouseDown, onMouseUp, disabled }) => {
   const fillClass = buttons[color].colors[active ? 1 : 0];
   const positionClass = buttons[color].position;
 
@@ -100,7 +100,7 @@ export const GameButton = ({ color, active, onMouseDown, onMouseUp }) => {
   }, [active]);
 
   return (
-    <button className={`w-[43%] pointer-events-none touch-manipulation block absolute ${positionClass}`} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
+    <button disabled={disabled} className={`w-[43%] pointer-events-none touch-manipulation block absolute ${positionClass}`} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 345.845 345.845">
         <path
           className={`pointer-events-auto ${fillClass} transition duration-200`}

@@ -19,6 +19,6 @@
   --font-sans: "Aldrich", serif;
 }
 
-button {
+button:not(:disabled) {
   @apply cursor-pointer;
 }

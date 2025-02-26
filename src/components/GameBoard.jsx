@@ -87,7 +87,7 @@ export function GameBoard() {
 
   return (
     <>
-      <div className="fixed text-sm">
+      <div className="fixed text-sm hidden">
         <p>
           {iteration} / {gameSequence.length} / {gameMode}
         </p>
@@ -103,6 +103,11 @@ export function GameBoard() {
       <div className="max-w-210 max-h-screen mx-auto p-5 aspect-square">
         <div className="h-full w-full bg-almost-black rounded-full relative flex justify-center items-center">
           <div className="w-[40%]">
+            <h1 className="text-white text-title full:text-title-full text-center uppercase tracking-[0.25em] leading-[1em]">
+              Sequence
+              <br />
+              Master
+            </h1>
             <StartButton onClick={handleStart} disabled={gameMode !== "gameover"} />
           </div>
           {gameButtons.map((btn, i) => (
@@ -115,6 +120,9 @@ export function GameBoard() {
               }}
               onMouseUp={() => {
                 handleButtonUp(i + 1);
+              }}
+              onMouseLeave={() => {
+                setActiveButton(0);
               }}
               disabled={gameMode !== "player"}
               error={gameMode === "error" || gameMode === "error-flash"}

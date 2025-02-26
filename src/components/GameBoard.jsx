@@ -6,9 +6,10 @@ export function GameBoard() {
   const gameButtons = ["yellow", "blue", "green", "red"];
 
   const [activeButton, setActiveButton] = useState(0);
-  const [gameSequence, setGameSequence] = useState([1, 2, 3, 4]);
+  const [gameSequence, setGameSequence] = useState([]);
   const [iteration, setIteration] = useState(0);
   const [gameMode, setGameMode] = useState("gameover");
+  const [errorFlash, setErrorFlash] = useState(0);
 
   const handleButtonDown = (num) => {
     setActiveButton(num);
@@ -58,13 +59,29 @@ export function GameBoard() {
 
     if (gameMode === "error") {
       setActiveButton(gameSequence[iteration]);
+      setTimeout(() => {
+        setErrorFlash((prev) => prev + 1);
+        setActiveButton(0);
+        setGameMode("error-flash");
+      }, 400);
+    }
+
+    if (gameMode === "error-flash") {
+      if (errorFlash < 4) {
+        setTimeout(() => {
+          setGameMode("error");
+        }, 200);
+      } else {
+        setGameMode("gameover");
+      }
     }
   }, [gameMode]);
 
   const handleStart = () => {
     setGameSequence((prevSequence) => [...prevSequence, Math.floor(Math.random() * 4)]);
-    setGameMode("playback-on");
     setIteration(0);
+    setErrorFlash(0);
+    setGameMode("playback-on");
   };
 
   return (
@@ -73,6 +90,7 @@ export function GameBoard() {
         <p>
           {iteration} / {gameSequence.length} / {gameMode}
         </p>
+        <p>{errorFlash}</p>
         <ul className="my-4">
           {gameSequence.map((num, i) => (
             <li key={`seq${i}`}>
@@ -98,6 +116,7 @@ export function GameBoard() {
                 handleButtonUp(i + 1);
               }}
               disabled={gameMode !== "player"}
+              error={gameMode === "error" || gameMode === "error-flash"}
             />
           ))}
         </div>

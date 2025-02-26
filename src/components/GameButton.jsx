@@ -74,7 +74,7 @@ export const GameButton = ({ color, active, onMouseDown, onMouseUp, onMouseLeave
       harmOsc.stop();
       bassOsc.stop();
 
-      harmOsc.disconnect();
+      noteOsc.disconnect();
       harmOsc.disconnect();
       bassOsc.disconnect();
 

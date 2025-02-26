@@ -16,13 +16,19 @@ export function GameBoard() {
 
   const handleButtonUp = (num) => {
     setActiveButton(0);
-    const nextTurn = iteration + 1;
-    if (nextTurn < gameSequence.length) {
-      setIteration(nextTurn);
+
+    if (num === gameSequence[iteration]) {
+      console.log("correct");
+      const nextTurn = iteration + 1;
+      if (nextTurn < gameSequence.length) {
+        setIteration(nextTurn);
+      } else {
+        setIteration(0);
+        setGameSequence((prevSequence) => [...prevSequence, Math.floor(Math.random() * 4) + 1]);
+        setGameMode("playback-pause");
+      }
     } else {
-      setIteration(0);
-      setGameSequence((prevSequence) => [...prevSequence, Math.floor(Math.random() * 4)]);
-      setGameMode("playback-pause");
+      setGameMode("error");
     }
   };
 
@@ -49,6 +55,10 @@ export function GameBoard() {
         iteration ? 250 : 750
       );
     }
+
+    if (gameMode === "error") {
+      setActiveButton(gameSequence[iteration]);
+    }
   }, [gameMode]);
 
   const handleStart = () => {
@@ -59,13 +69,15 @@ export function GameBoard() {
 
   return (
     <>
-      <div className="fixed">
+      <div className="fixed text-sm">
         <p>
-          {iteration} / {gameMode}
+          {iteration} / {gameSequence.length} / {gameMode}
         </p>
-        <ul>
+        <ul className="my-4">
           {gameSequence.map((num, i) => (
-            <li key={`seq${i}`}>{gameButtons[num - 1]}</li>
+            <li key={`seq${i}`}>
+              {num} {gameButtons[num - 1]}
+            </li>
           ))}
         </ul>
       </div>

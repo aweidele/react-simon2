@@ -100,8 +100,12 @@ export const GameButton = ({ color, active, onMouseDown, onMouseUp, onMouseLeave
     return () => stopNoteWithFade();
   }, [active]);
 
+  const handleContextMenu = (event) => {
+    event.preventDefault();
+  };
+
   return (
-    <button disabled={disabled} className={`w-[43%] pointer-events-none touch-manipulation block absolute ${positionClass}`} onTouchStart={onMouseDown} onMouseDown={onMouseDown} onMouseUp={onMouseUp} onMouseLeave={onMouseLeave}>
+    <button disabled={disabled} className={`w-[43%] pointer-events-none touch-manipulation block absolute ${positionClass}`} onTouchStart={onMouseDown} onMouseDown={onMouseDown} onMouseUp={onMouseUp} onMouseLeave={onMouseLeave} onContextMenu={handleContextMenu}>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 347.845 347.845">
         <path
           className={`pointer-events-auto ${fillClass} transition duration-200 stroke-2 ${strokeClass}`}

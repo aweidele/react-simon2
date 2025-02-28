@@ -101,7 +101,7 @@ export function GameBoard() {
         </ul>
       </div>
       <div className="max-w-210 max-h-screen mx-auto p-5 aspect-square">
-        <div className="h-full w-full bg-almost-black rounded-full relative flex justify-center items-center">
+        <div className=" w-full aspect-square bg-almost-black rounded-full relative flex justify-center items-center">
           <div className="w-[40%]">
             <h1 className="text-white text-title full:text-title-full text-center uppercase tracking-[0.25em] leading-[1em]">
               Sequence

@@ -93,8 +93,14 @@ export const GameButton = ({ color, active, onMouseDown, onMouseUp, onMouseLeave
 
     if (active) {
       startNote();
+      if ("vibrate" in navigator) {
+        navigator.vibrate(200);
+      }
     } else {
       stopNoteWithFade();
+      if ("vibrate" in navigator) {
+        navigator.vibrate(0);
+      }
     }
 
     return () => stopNoteWithFade();

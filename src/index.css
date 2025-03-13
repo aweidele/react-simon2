@@ -12,6 +12,7 @@
   --color-red: #751600;
   --color-red-active: #e72b00;
   --color-red-hover: #ff5c38;
+  --color-slider-bg: #c5c5d9;
 
   --text-lg: 30px;
   --text-start-button: clamp(0.375rem, 1.2903225806451613vw + 0.07258064516129033rem, 0.75rem);
@@ -26,4 +27,14 @@
 
 button:not(:disabled) {
   @apply cursor-pointer;
+}
+
+.speed-slider {
+  -webkit-appearance: none;
+}
+
+.speed-slider::-webkit-slider-thumb {
+  @apply w-[24%] aspect-square bg-no-repeat bg-center;
+  -webkit-appearance: none;
+  background-image: url("slider-thumb.svg");
 }

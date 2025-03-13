@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { GameButton } from "./GameButton";
 import { StartButton } from "./StartButton";
+import { SpeedSlider } from "./SpeedSlider";
 
 export function GameBoard() {
   const gameButtons = ["yellow", "blue", "green", "red"];
@@ -10,6 +11,7 @@ export function GameBoard() {
   const [iteration, setIteration] = useState(0);
   const [gameMode, setGameMode] = useState("gameover");
   const [errorFlash, setErrorFlash] = useState(0);
+  const [gameSpeed, setGameSpeed] = useState(2);
 
   const handleButtonDown = (num) => {
     setActiveButton(num);
@@ -46,7 +48,7 @@ export function GameBoard() {
           setIteration(0);
           setGameMode("player");
         }
-      }, 750);
+      }, 1000 / gameSpeed);
     }
     if (gameMode === "playback-pause") {
       setTimeout(
@@ -85,6 +87,10 @@ export function GameBoard() {
     setGameMode("playback-on");
   };
 
+  const handleGameSpeed = (e) => {
+    setGameSpeed(parseInt(e.target.value));
+  };
+
   return (
     <>
       <div className="fixed text-sm hidden">
@@ -109,6 +115,7 @@ export function GameBoard() {
               Master
             </h1>
             <StartButton onClick={handleStart} disabled={gameMode !== "gameover"} />
+            <SpeedSlider speed={gameSpeed} onChange={handleGameSpeed} disabled={gameMode !== "gameover"} />
           </div>
           {gameButtons.map((btn, i) => (
             <GameButton

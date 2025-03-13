@@ -34,7 +34,13 @@ button:not(:disabled) {
 }
 
 .speed-slider::-webkit-slider-thumb {
-  @apply w-[24%] aspect-square bg-no-repeat bg-center;
+  @apply w-[24%] aspect-square bg-no-repeat bg-center appearance-none;
   -webkit-appearance: none;
+  background-image: url("slider-thumb.svg");
+}
+
+.speed-slider::-moz-range-track {
+  @apply w-[24%] aspect-square bg-no-repeat bg-center appearance-none;
+  appearance: none;
   background-image: url("slider-thumb.svg");
 }
